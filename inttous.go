@@ -1,6 +1,9 @@
 package numtext
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 // IntToWordsUS converts a specified number to its US verbal representation.
 func IntToWordsUS(number int64) string {
@@ -13,9 +16,9 @@ func IntToWordsUS(number int64) string {
 
 	var nums [][]string
 	if number < 0 {
-		nums = splitNums(string(-number))
+		nums = splitNums(strconv.FormatInt(-number, 10))
 	} else {
-		nums = splitNums(string(number))
+		nums = splitNums(strconv.FormatInt(number, 10))
 	}
 	val := numsToUS(nums)
 	if number < 0 {
@@ -33,7 +36,7 @@ func UIntToWordsUS(number uint64) string {
 		panic("number value too large")
 	}
 
-	nums := splitNums(string(number))
+	nums := splitNums(strconv.FormatUint(number, 10))
 	return numsToUS(nums)
 }
 
@@ -58,7 +61,10 @@ func UIntToWordsUSFmt(number uint64, format rune) string {
 func numsToUS(nums [][]string) string {
 	var result string
 	for k, n := range nums {
-		if k > 1 {
+		if n[0] == "" && n[1] == "" && n[2] == "" {
+			continue
+		}
+		if k > 0 {
 			result = orders[k] + result
 		}
 		if k == len(nums)-1 {
@@ -82,9 +88,17 @@ func numsToUS(nums [][]string) string {
 			}
 		} else {
 			if len(n) == 2 {
-				result = n[0] + orders[0] + n[1] + result
+				if n[0] == "" {
+					result = n[1] + result
+				} else {
+					result = n[0] + orders[0] + n[1] + result
+				}
 			} else {
-				result = n[0] + orders[0] + n[1] + n[2] + result
+				if n[0] == "" {
+					result = n[1] + n[2] + result
+				} else {
+					result = n[0] + orders[0] + n[1] + n[2] + result
+				}
 			}
 		}
 	}

@@ -1,6 +1,9 @@
 package numtext
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 // IntToWordsGB converts a specified number to its GB verbal representation.
 func IntToWordsGB(number int64) string {
@@ -13,9 +16,9 @@ func IntToWordsGB(number int64) string {
 
 	var nums [][]string
 	if number < 0 {
-		nums = splitNums(string(-number))
+		nums = splitNums(strconv.FormatInt(-number, 10))
 	} else {
-		nums = splitNums(string(number))
+		nums = splitNums(strconv.FormatInt(number, 10))
 	}
 	val := numsToGB(nums)
 	if number < 0 {
@@ -33,7 +36,7 @@ func UIntToWordsGB(number uint64) string {
 		panic("number value too large")
 	}
 
-	nums := splitNums(string(number))
+	nums := splitNums(strconv.FormatUint(number, 10))
 	return numsToGB(nums)
 }
 
@@ -58,6 +61,9 @@ func UIntToWordsGBFmt(number uint64, format rune) string {
 func numsToGB(nums [][]string) string {
 	var result string
 	for k, n := range nums {
+		if n[0] == "" && n[1] == "" && n[2] == "" && k != 4 && !(k == 2 && len(nums) == 4) {
+			continue
+		}
 		switch k {
 		case 1:
 			result = orders[1] + result
@@ -93,9 +99,17 @@ func numsToGB(nums [][]string) string {
 			}
 		} else {
 			if len(n) == 2 {
-				result = n[0] + orders[0] + n[1] + result
+				if n[0] == "" {
+					result = n[1] + result
+				} else {
+					result = n[0] + orders[0] + n[1] + result
+				}
 			} else {
-				result = n[0] + orders[0] + n[1] + n[2] + result
+				if n[0] == "" {
+					result = n[1] + n[2] + result
+				} else {
+					result = n[0] + orders[0] + n[1] + n[2] + result
+				}
 			}
 		}
 	}

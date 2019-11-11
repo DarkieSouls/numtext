@@ -1,6 +1,8 @@
 package numtext
 
-import "strings"
+import (
+	"strings"
+)
 
 var (
 	units = map[string]string{"1":"one ", "2":"two ", "3":"three ", "4":"four ", "5":"five ", "6":"six ", "7":"seven ", "8":"eight ", "9":"nine "}
@@ -50,9 +52,15 @@ func fmtEngNum(number string, format rune) string {
 		s = number
 	case 'h','H':
 		s = strings.ReplaceAll(number, " ", "-")
+		s = strings.Replace(s, "minus-", "minus ", 1)
 	case 'c','C':
 		s = strings.ReplaceAll(number, "ion ", "ion, ")
 		s = strings.ReplaceAll(s, "and ", "and, ")
+		s = strings.ReplaceAll(s, ", mil", " mil")
+		s = strings.ReplaceAll(s, ", bil", " bil")
+		s = strings.ReplaceAll(s, ", tri", " tri")
+		s = strings.ReplaceAll(s, ", quad", " quad")
+		s = strings.Trim(s, ",")
 	}
 
 	return s
