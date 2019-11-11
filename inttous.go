@@ -41,18 +41,20 @@ func UIntToWordsUS(number uint64) string {
 }
 
 // IntToWordsUSFmt converts a specified number to its US verbal representation.
-// s formats the number with spaces
-// h formats the number with hyphens
-// c formats the number with comma separation
+//
+// s formats the number with spaces,
+// h formats the number with hyphens,
+// c formats the number with comma separation.
 func IntToWordsUSFmt(number int64, format rune) string {
 	num := IntToWordsUS(number)
 	return fmtEngNum(num, format)
 }
 
 // UIntToWordsUSFmt converts a specified number to its US verbal representation.
-// s formats the number with spaces
-// h formats the number with hyphens
-// c formats the number with comma separation
+//
+// s formats the number with spaces,
+// h formats the number with hyphens,
+// c formats the number with comma separation.
 func UIntToWordsUSFmt(number uint64, format rune) string {
 	num := UIntToWordsUS(number)
 	return fmtEngNum(num, format)

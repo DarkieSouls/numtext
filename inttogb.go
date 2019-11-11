@@ -41,18 +41,20 @@ func UIntToWordsGB(number uint64) string {
 }
 
 // IntToWordsGBFmt converts a specified number to its GB verbal representation.
-// s formats the number with spaces
-// h formats the number with hyphens
-// c formats the number with comma separation
+//
+// s formats the number with spaces,
+// h formats the number with hyphens,
+// c formats the number with comma separation.
 func IntToWordsGBFmt(number int64, format rune) string {
 	num := IntToWordsGB(number)
 	return fmtEngNum(num, format)
 }
 
 // UIntToWordsGBFmt converts a specified number to its GB verbal representation.
-// s formats the number with spaces
-// h formats the number with hyphens
-// c formats the number with comma separation
+//
+// s formats the number with spaces,
+// h formats the number with hyphens,
+// c formats the number with comma separation.
 func UIntToWordsGBFmt(number uint64, format rune) string {
 	num := UIntToWordsGB(number)
 	return fmtEngNum(num, format)
